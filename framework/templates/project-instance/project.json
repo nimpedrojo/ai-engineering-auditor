@@ -1,0 +1,11 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectId": "",
+  "name": "",
+  "repository": "",
+  "description": "",
+  "status": "Initialized",
+  "createdAt": "",
+  "aiTools": ["ChatGPT", "GitHub Copilot", "Codex"],
+  "metrics": ["Productivity", "Quality", "Confidence", "Learning", "Risk"]
+}
