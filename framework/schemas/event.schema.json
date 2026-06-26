@@ -1,171 +1,66 @@
 {
-  "schemaVersion": "1.0.0",
-  "description": "Event contract for AI Engineering Auditor. Defines the canonical structure for one event stored in events.jsonl.",
-  "format": "jsonl-record",
-  "sourceOfTruth": "docs/ai-evaluation/events.jsonl",
-  "event": {
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+
+  "title": "AI Engineering Auditor Event",
+
+  "type": "object",
+
+  "additionalProperties": false,
+
+  "required": ["eventId", "timestamp", "eventType", "phase", "tool"],
+
+  "properties": {
     "eventId": {
-      "type": "string",
-      "required": true,
-      "description": "Unique identifier for this event."
+      "type": "string"
     },
-    "eventType": {
-      "type": "string",
-      "required": true,
-      "allowedValues": [
-        "TaskCreated",
-        "AIInteractionStarted",
-        "AIInteractionCompleted",
-        "HumanReviewCompleted",
-        "EvidenceAttached",
-        "MetricsObserved",
-        "DecisionRecorded",
-        "TaskCompleted"
-      ]
-    },
+
     "timestamp": {
       "type": "string",
-      "required": true,
-      "format": "ISO-8601"
+      "format": "date-time"
     },
-    "schemaVersion": {
-      "type": "string",
-      "required": true,
-      "default": "1.0.0"
+
+    "eventType": {
+      "type": "string"
     },
-    "project": {
-      "required": true,
-      "fields": {
-        "id": { "type": "string", "required": true },
-        "name": { "type": "string", "required": true },
-        "repository": { "type": "string", "required": false },
-        "phase": {
-          "type": "string",
-          "required": true,
-          "taxonomyRef": "phases"
-        }
-      }
+
+    "phase": {
+      "type": "string"
     },
-    "task": {
-      "required": true,
-      "fields": {
-        "id": { "type": "string", "required": true },
-        "title": { "type": "string", "required": true },
-        "intent": {
-          "type": "string",
-          "required": true,
-          "taxonomyRef": "intents"
-        },
-        "taskType": {
-          "type": "string",
-          "required": true,
-          "taxonomyRef": "taskTypes"
-        },
-        "description": { "type": "string", "required": false }
-      }
+
+    "tool": {
+      "type": "string"
     },
-    "ai": {
-      "required": false,
-      "fields": {
-        "tool": {
-          "type": "string",
-          "required": false,
-          "taxonomyRef": "tools"
-        },
-        "model": { "type": "string", "required": false },
-        "promptSummary": { "type": "string", "required": false },
-        "iterations": { "type": "number", "required": false },
-        "contextSource": {
-          "type": "string",
-          "required": false,
-          "taxonomyRef": "contextSource"
-        },
-        "outputStatus": {
-          "type": "string",
-          "required": false,
-          "taxonomyRef": "outputStatus"
-        }
-      }
+
+    "title": {
+      "type": "string"
     },
-    "review": {
-      "required": false,
-      "fields": {
-        "reviewed": { "type": "boolean", "required": false },
-        "reviewTimeMinutes": { "type": "number", "required": false },
-        "humanIntervention": {
-          "type": "string",
-          "required": false,
-          "taxonomyRef": "humanIntervention"
-        },
-        "confidence": {
-          "type": "string",
-          "required": false,
-          "allowedValues": ["VeryLow", "Low", "Medium", "High", "VeryHigh"]
-        },
-        "learningValue": {
-          "type": "string",
-          "required": false,
-          "allowedValues": ["None", "Low", "Medium", "High", "Exceptional"]
-        },
-        "notes": { "type": "string", "required": false }
-      }
+
+    "description": {
+      "type": "string"
     },
-    "evidence": {
-      "required": false,
-      "fields": {
-        "files": { "type": "array", "items": "string", "required": false },
-        "commits": { "type": "array", "items": "string", "required": false },
-        "pullRequests": {
-          "type": "array",
-          "items": "string",
-          "required": false
-        },
-        "issues": { "type": "array", "items": "string", "required": false },
-        "tests": { "type": "array", "items": "string", "required": false },
-        "documents": { "type": "array", "items": "string", "required": false },
-        "notes": { "type": "array", "items": "string", "required": false }
-      }
+
+    "taskId": {
+      "type": "string"
     },
-    "metricsObservation": {
-      "required": false,
-      "fields": {
-        "estimatedTimeMinutes": { "type": "number", "required": false },
-        "actualTimeMinutes": { "type": "number", "required": false },
-        "acceptedPercentage": { "type": "number", "required": false },
-        "modifiedPercentage": { "type": "number", "required": false },
-        "rejectedPercentage": { "type": "number", "required": false },
-        "riskLevel": {
-          "type": "string",
-          "required": false,
-          "taxonomyRef": "riskLevels"
-        }
-      }
+
+    "severity": {
+      "type": "string"
     },
-    "outcome": {
-      "required": false,
-      "fields": {
-        "completed": { "type": "boolean", "required": false },
-        "validationType": {
-          "type": "string",
-          "required": false,
-          "taxonomyRef": "validationType"
-        },
-        "outcomes": {
-          "type": "array",
-          "items": "string",
-          "required": false,
-          "taxonomyRef": "outcomes"
-        },
-        "qualityDimensions": {
-          "type": "array",
-          "items": "string",
-          "required": false,
-          "taxonomyRef": "qualityDimensions"
-        },
-        "qualityImproved": { "type": "boolean", "required": false },
-        "bugsIntroduced": { "type": "number", "required": false },
-        "bugsPrevented": { "type": "number", "required": false }
-      }
+
+    "purpose": {
+      "type": "string"
+    },
+
+    "result": {
+      "type": "string"
+    },
+
+    "accepted": {
+      "type": "boolean"
+    },
+
+    "metadata": {
+      "type": "object"
     }
   }
 }
