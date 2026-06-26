@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+
+SDK_DIR="$ROOT_DIR/framework/sdk"
+PYTHON_CMD=""
+
+if command -v python3 >/dev/null 2>&1
+then
+    PYTHON_CMD="python3"
+elif command -v python >/dev/null 2>&1
+then
+    PYTHON_CMD="python"
+else
+    echo "ERROR: Python not found." >&2
+    exit 1
+fi
+
+COMMAND="${1:-}"
+
+case "$COMMAND" in
+    create)
+        shift
+        PYTHONPATH="$SDK_DIR" "$PYTHON_CMD" "$SDK_DIR/event_cli.py" "$@"
+        ;;
+    ""|-h|--help)
+        cat <<EOF
+
+Usage:
+  aiea-event create
+  aiea-event create event.json
+
+Examples:
+  echo '{"eventType":"Finding","phase":"Discovery","tool":"Codex","title":"Realm uses embedded objects"}' | aiea-event create
+
+EOF
+        ;;
+    *)
+        echo "ERROR: Unknown command: $COMMAND" >&2
+        exit 1
+        ;;
+esac
