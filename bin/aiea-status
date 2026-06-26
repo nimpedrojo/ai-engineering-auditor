@@ -150,7 +150,36 @@ count_decisions() {
         return
     fi
 
-    grep -c "^|" "$DECISIONS_FILE" || true
+    python3 <<EOF
+from pathlib import Path
+
+path = Path(r"$DECISIONS_FILE")
+
+if not path.exists():
+    print(0)
+    raise SystemExit
+
+lines = path.read_text(encoding="utf-8").splitlines()
+
+count = 0
+
+for line in lines:
+
+    line = line.strip()
+
+    if not line.startswith("|"):
+        continue
+
+    if line.startswith("| Date "):
+        continue
+
+    if set(line.replace("|", "").replace("-", "").replace(" ", "")) == set():
+        continue
+
+    count += 1
+
+print(count)
+EOF
 
 }
 
