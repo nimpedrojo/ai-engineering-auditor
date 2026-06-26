@@ -4,63 +4,17 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
-VERSION="$(<"$ROOT_DIR/VERSION")"
+FRAMEWORK_DIR="$ROOT_DIR/framework"
 
-PROJECT_ROOT=""
-AUDITOR_DIR=""
-PYTHON_CMD=""
-
-find_project_root() {
-    if git rev-parse --show-toplevel >/dev/null 2>&1
-    then
-        git rev-parse --show-toplevel
-        return
-    fi
-
-    pwd
-}
-
-detect_python() {
-    if command -v python3 >/dev/null 2>&1
-    then
-        PYTHON_CMD="python3"
-        return
-    fi
-
-    if command -v python >/dev/null 2>&1
-    then
-        PYTHON_CMD="python"
-        return
-    fi
-
+if command -v python3 >/dev/null 2>&1
+then
+    PYTHON_CMD="python3"
+elif command -v python >/dev/null 2>&1
+then
+    PYTHON_CMD="python"
+else
     echo "ERROR: Python not found." >&2
     exit 1
-}
+fi
 
-main() {
-    echo
-    echo "============================================================"
-    echo " AI Engineering Auditor v${VERSION}"
-    echo "============================================================"
-    echo
-
-    PROJECT_ROOT="$(find_project_root)"
-    AUDITOR_DIR="$PROJECT_ROOT/docs/ai-auditor"
-
-    if [[ ! -d "$AUDITOR_DIR" ]]
-    then
-        echo "ERROR: AI Engineering Auditor has not been initialized." >&2
-        exit 1
-    fi
-
-    detect_python
-
-    report_path="$("$PYTHON_CMD" "$ROOT_DIR/framework/sdk/report_cli.py" "$AUDITOR_DIR")"
-
-    echo "✔ Report generated"
-    echo
-    printf "%-18s %s\n" "Report" "$report_path"
-    echo
-}
-
-main "$@"
+PYTHONPATH="$FRAMEWORK_DIR" "$PYTHON_CMD" -m aiea.cli.report "$@"
