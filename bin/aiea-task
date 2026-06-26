@@ -207,7 +207,7 @@ now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 data["currentTask"] = None
 data["currentAIInteraction"] = None
-data["status"] = "Initialized"
+data["status"] = "Ready"
 data["updatedAt"] = now
 
 state_file.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
