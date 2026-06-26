@@ -243,12 +243,14 @@ initialize_project_files() {
 
 create_initial_event() {
 
-    local now
-
-    now="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
-
-    cat > "$TARGET_DIR/events.jsonl" <<EOF
-{"eventId":"EVT-000001","eventType":"ProjectInitialized","timestamp":"$now","tool":"aiea-init","schemaVersion":"1.0.0"}
+    cat <<EOF | PYTHONPATH="$ROOT_DIR/framework/sdk" "$PYTHON_CMD" "$ROOT_DIR/framework/sdk/event_cli.py" >/dev/null
+{
+  "eventType": "ProjectInitialized",
+  "phase": "Discovery",
+  "tool": "aiea-init",
+  "title": "AI Engineering Auditor initialized",
+  "description": "The project has been initialized successfully."
+}
 EOF
 
 }
