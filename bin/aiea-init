@@ -266,7 +266,7 @@ print_summary() {
     echo
     printf "%-20s %s\n" "Project"      "$PROJECT_NAME"
     printf "%-20s %s\n" "Location"     "$TARGET_DIR"
-    printf "%-20s %s\n" "Status"       "Initialized"
+    printf "%-20s %s\n" "Status"       "Ready"
     printf "%-20s %s\n" "Events"       "1"
     echo
     echo "Next step"
