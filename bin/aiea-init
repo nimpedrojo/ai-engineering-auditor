@@ -14,14 +14,14 @@
 
 set -euo pipefail
 
-VERSION="$(cat "$ROOT_DIR/VERSION")"
-
 ###############################################################################
 # Directories
 ###############################################################################
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+
+VERSION="$(<"$ROOT_DIR/VERSION")"
 
 FRAMEWORK_DIR="$ROOT_DIR/framework"
 TEMPLATE_DIR="$FRAMEWORK_DIR/templates/project-instance"
