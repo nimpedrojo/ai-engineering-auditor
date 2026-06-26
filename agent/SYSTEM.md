@@ -99,6 +99,7 @@ Examples of evidence include:
 - benchmarks
 - project artifacts
 - recorded engineering events
+- metrics observations
 
 Conversation history alone is not considered sufficient evidence.
 

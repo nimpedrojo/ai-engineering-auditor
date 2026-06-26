@@ -1,0 +1,325 @@
+#!/usr/bin/env bash
+
+###############################################################################
+#
+# AI Engineering Auditor
+#
+# Command:
+#   aiea-init
+#
+# Description:
+#   Initializes AI Engineering Auditor inside the current project.
+#
+###############################################################################
+
+set -euo pipefail
+
+VERSION="0.1.0"
+
+###############################################################################
+# Directories
+###############################################################################
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+
+FRAMEWORK_DIR="$ROOT_DIR/framework"
+TEMPLATE_DIR="$FRAMEWORK_DIR/templates/project-instance"
+
+PROJECT_ROOT=""
+PROJECT_NAME=""
+TARGET_DIR=""
+
+###############################################################################
+# Console
+###############################################################################
+
+print_header() {
+
+    echo
+    echo "============================================================"
+    echo " AI Engineering Auditor v${VERSION}"
+    echo "============================================================"
+    echo
+
+}
+
+info() {
+
+    printf "• %s\n" "$1"
+
+}
+
+success() {
+
+    printf "✔ %s\n" "$1"
+
+}
+
+warning() {
+
+    printf "⚠ %s\n" "$1"
+
+}
+
+error() {
+
+    echo
+    printf "ERROR: %s\n" "$1"
+    echo
+    exit 1
+
+}
+
+###############################################################################
+# Validation
+###############################################################################
+
+validate_framework() {
+
+    [[ -d "$FRAMEWORK_DIR" ]] \
+        || error "Framework directory not found."
+
+    [[ -d "$TEMPLATE_DIR" ]] \
+        || error "Template directory not found."
+
+}
+
+###############################################################################
+# Project detection
+###############################################################################
+
+find_project_root() {
+
+    if git rev-parse --show-toplevel >/dev/null 2>&1
+    then
+        git rev-parse --show-toplevel
+        return
+    fi
+
+    pwd
+
+}
+
+validate_project() {
+
+    if git rev-parse --is-inside-work-tree >/dev/null 2>&1
+    then
+        return
+    fi
+
+    compgen -G "*.sln" > /dev/null && return
+
+    [[ -f package.json ]] && return
+
+    [[ -f pom.xml ]] && return
+
+    [[ -f Cargo.toml ]] && return
+
+    [[ -d src ]] && return
+
+    error "Current directory does not appear to be a software project."
+
+}
+
+###############################################################################
+# Python
+###############################################################################
+
+validate_python() {
+
+    if command -v python3 >/dev/null 2>&1
+    then
+        PYTHON_CMD="python3"
+        return
+    fi
+
+    if command -v python >/dev/null 2>&1
+    then
+        PYTHON_CMD="python"
+        return
+    fi
+
+    error "Python not found."
+
+}
+
+###############################################################################
+# Placeholders
+###############################################################################
+
+replace_placeholder() {
+
+    local file="$1"
+    local placeholder="$2"
+    local value="$3"
+
+"$PYTHON_CMD" <<EOF
+from pathlib import Path
+
+path = Path(r"$file")
+
+text = path.read_text(encoding="utf-8")
+
+text = text.replace("$placeholder", """$value""")
+
+path.write_text(text, encoding="utf-8")
+EOF
+
+}
+
+###############################################################################
+# Initialization
+###############################################################################
+
+prepare_paths() {
+
+    PROJECT_ROOT="$(find_project_root)"
+
+    PROJECT_NAME="$(basename "$PROJECT_ROOT")"
+
+    TARGET_DIR="$PROJECT_ROOT/docs/ai-auditor"
+
+}
+
+create_structure() {
+
+    if [[ -d "$TARGET_DIR" ]]
+    then
+        error "AI Engineering Auditor already initialized."
+    fi
+
+    mkdir -p "$TARGET_DIR"
+
+    cp -R "$TEMPLATE_DIR"/. "$TARGET_DIR"/
+
+}
+
+initialize_project_files() {
+
+    local now
+
+    now="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+
+    replace_placeholder \
+        "$TARGET_DIR/project.json" \
+        "__PROJECT_ID__" \
+        "$PROJECT_NAME"
+
+    replace_placeholder \
+        "$TARGET_DIR/project.json" \
+        "__PROJECT_NAME__" \
+        "$PROJECT_NAME"
+
+    replace_placeholder \
+        "$TARGET_DIR/project.json" \
+        "__REPOSITORY__" \
+        "$PROJECT_NAME"
+
+    replace_placeholder \
+        "$TARGET_DIR/project.json" \
+        "__CREATED_AT__" \
+        "$now"
+
+    replace_placeholder \
+        "$TARGET_DIR/project.json" \
+        "__UPDATED_AT__" \
+        "$now"
+
+    replace_placeholder \
+        "$TARGET_DIR/state.json" \
+        "__CREATED_AT__" \
+        "$now"
+
+    replace_placeholder \
+        "$TARGET_DIR/state.json" \
+        "__UPDATED_AT__" \
+        "$now"
+
+}
+###############################################################################
+# Events
+###############################################################################
+
+create_initial_event() {
+
+    local now
+
+    now="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+
+    cat > "$TARGET_DIR/events.jsonl" <<EOF
+{"eventId":"EVT-000001","eventType":"ProjectInitialized","timestamp":"$now","tool":"aiea-init","schemaVersion":"1.0.0"}
+EOF
+
+}
+
+###############################################################################
+# Summary
+###############################################################################
+
+print_summary() {
+
+    echo
+    echo "============================================================"
+    echo
+    success "AI Engineering Auditor initialized successfully."
+    echo
+    printf "%-20s %s\n" "Project"      "$PROJECT_NAME"
+    printf "%-20s %s\n" "Location"     "$TARGET_DIR"
+    printf "%-20s %s\n" "Status"       "Initialized"
+    printf "%-20s %s\n" "Events"       "1"
+    echo
+    echo "Next steps"
+    echo "----------"
+    echo "1. Open ChatGPT."
+    echo "2. Select the AI Engineering Auditor Agent."
+    echo "3. Start your first engineering task."
+    echo
+    echo "============================================================"
+    echo
+
+}
+
+###############################################################################
+# Main
+###############################################################################
+
+main() {
+
+    print_header
+
+    info "Validating framework..."
+    validate_framework
+    success "Framework found"
+
+    info "Validating Python..."
+    validate_python
+    success "Python available"
+
+    info "Validating project..."
+    validate_project
+    success "Project detected"
+
+    info "Preparing paths..."
+    prepare_paths
+    success "Project: $PROJECT_NAME"
+
+    info "Creating directory structure..."
+    create_structure
+    success "Directory created"
+
+    info "Initializing project files..."
+    initialize_project_files
+    success "Templates initialized"
+
+    info "Creating initial event..."
+    create_initial_event
+    success "Initial event created"
+
+    print_summary
+
+}
+
+###############################################################################
+
+main "$@"

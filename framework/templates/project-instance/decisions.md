@@ -1,4 +1,4 @@
-# AI Auditor Decisions
+# Engineering Decisions
 
-| Date | Decision | Reason | Impact | Evidence |
-| ---- | -------- | ------ | ------ | -------- |
+| Date | Decision | Reason | Evidence | Impact |
+| ---- | -------- | ------ | -------- | ------ |

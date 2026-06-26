@@ -126,7 +126,7 @@
         "notes": { "type": "array", "items": "string", "required": false }
       }
     },
-    "metrics": {
+    "metricsObservation": {
       "required": false,
       "fields": {
         "estimatedTimeMinutes": { "type": "number", "required": false },

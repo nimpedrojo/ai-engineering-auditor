@@ -1,0 +1,11 @@
+# macOS
+.DS_Store
+
+# VS Code
+.vscode/
+
+# AI Engineering Auditor
+docs/ai-auditor/.workspace.json
+
+# Logs
+*.log

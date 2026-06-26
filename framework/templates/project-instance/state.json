@@ -1,8 +1,9 @@
 {
   "schemaVersion": "1.0.0",
+  "status": "Initialized",
   "currentPhase": "Discovery",
   "currentTask": null,
   "currentAIInteraction": null,
-  "status": "Initialized",
-  "updatedAt": ""
+  "createdAt": "__CREATED_AT__",
+  "updatedAt": "__UPDATED_AT__"
 }

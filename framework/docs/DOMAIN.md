@@ -1,0 +1,404 @@
+# AI Engineering Auditor — Domain Model
+
+Version: 0.1
+
+---
+
+# Purpose
+
+This document defines the business domain of the AI Engineering Auditor.
+
+It establishes the official meaning of every core concept used by the framework.
+
+All schemas, templates, reports, metrics, workflows and agents must follow these definitions.
+
+If a concept is not defined here, it does not officially exist.
+
+---
+
+# Domain Philosophy
+
+The Auditor does not evaluate people.
+
+The Auditor evaluates engineering work supported by AI.
+
+Everything in the domain exists to answer one question:
+
+> Can the impact of AI on software engineering be measured objectively?
+
+---
+
+# Domain Overview
+
+```
+Project
+│
+├── Phase
+│
+├── Task
+│   │
+│   ├── AI Interaction
+│   │
+│   ├── Human Review
+│   │
+│   ├── Evidence
+│   │
+│   ├── Metrics Observation
+│   │
+│   └── Decision
+│
+├── Events
+│
+├── Reports
+│
+└── Metrics
+```
+
+---
+
+# Project
+
+## Definition
+
+A Project represents a software engineering initiative being evaluated.
+
+A project contains all engineering activities performed during its lifetime.
+
+Examples
+
+- Legacy migration
+- New application
+- Internal tool
+- API development
+- Refactoring initiative
+
+A Project owns:
+
+- phases
+- tasks
+- reports
+- events
+- metrics
+
+---
+
+# Phase
+
+## Definition
+
+A Phase represents a major stage in the engineering lifecycle.
+
+Examples
+
+- Discovery
+- Architecture
+- Implementation
+- Testing
+- Deployment
+- Maintenance
+
+A project moves through phases.
+
+Tasks belong to one phase.
+
+---
+
+# Task
+
+## Definition
+
+A Task is the smallest engineering unit evaluated by the Auditor.
+
+A Task has:
+
+- objective
+- engineering context
+- evidence
+- AI interactions
+- review
+- outcome
+
+A Task produces one or more Events.
+
+---
+
+# AI Interaction
+
+## Definition
+
+An AI Interaction represents one collaboration between an engineer and an AI system.
+
+Examples
+
+- ChatGPT conversation
+- Copilot completion
+- Codex task
+- Claude analysis
+
+An AI Interaction is never evaluated in isolation.
+
+It must always belong to a Task.
+
+---
+
+# AI System
+
+## Definition
+
+An AI System is any software capable of assisting engineering work through Artificial Intelligence.
+
+Examples
+
+- ChatGPT
+- GitHub Copilot
+- Codex
+- Claude
+- Cursor
+- Gemini
+
+Future systems should fit this definition without changing the model.
+
+---
+
+# Human Review
+
+## Definition
+
+Human Review is the engineering validation performed after AI assistance.
+
+The review determines:
+
+- correctness
+- usefulness
+- required corrections
+- remaining risks
+
+No AI contribution is considered complete until human review exists.
+
+---
+
+# Evidence
+
+## Definition
+
+Evidence is any observable artifact supporting an engineering conclusion.
+
+Examples
+
+- source code
+- commits
+- pull requests
+- documentation
+- tests
+- benchmarks
+- screenshots
+- engineering notes
+
+Evidence is the primary source of truth.
+
+---
+
+# Decision
+
+## Definition
+
+A Decision records an engineering choice that may affect the project.
+
+Examples
+
+- architecture decisions
+- migration strategy
+- technology selection
+- database approach
+- accepted trade-offs
+
+Every important decision should reference supporting evidence.
+
+---
+
+# Event
+
+## Definition
+
+An Event represents something that objectively happened during engineering work.
+
+Events are immutable.
+
+Examples
+
+- TaskCreated
+- AIInteractionCompleted
+- HumanReviewCompleted
+- TaskCompleted
+
+Events are chronological.
+
+Events are append-only.
+
+---
+
+# Metrics Observation
+
+## Definition
+
+A Metrics Observation represents raw measurable information.
+
+Examples
+
+Estimated time
+
+Actual time
+
+Accepted percentage
+
+Review time
+
+Iterations
+
+Observations are not metrics.
+
+They are inputs used to calculate metrics.
+
+---
+
+# Metric
+
+## Definition
+
+A Metric is a calculated value derived from one or more observations.
+
+Examples
+
+Productivity Score
+
+Quality Score
+
+Learning Score
+
+Risk Score
+
+Metrics should never be manually edited.
+
+They are always derived.
+
+---
+
+# Report
+
+## Definition
+
+A Report is a generated interpretation of project information.
+
+Reports summarize:
+
+- engineering activity
+- AI usage
+- evidence
+- metrics
+- conclusions
+
+Reports are reproducible.
+
+Reports never become the source of truth.
+
+---
+
+# State
+
+## Definition
+
+State represents the current operational condition of the Auditor.
+
+Examples
+
+Idle
+
+Task Active
+
+Waiting For Review
+
+Project Completed
+
+State belongs to the Auditor.
+
+It does not belong to the Project.
+
+---
+
+# Relationship Summary
+
+Project
+
+contains
+
+↓
+
+Phases
+
+contain
+
+↓
+
+Tasks
+
+Tasks generate
+
+↓
+
+Events
+
+Tasks contain
+
+↓
+
+AI Interactions
+
+↓
+
+Human Reviews
+
+↓
+
+Evidence
+
+↓
+
+Metrics Observations
+
+↓
+
+Decisions
+
+Events and Observations produce
+
+↓
+
+Metrics
+
+Metrics and Evidence produce
+
+↓
+
+Reports
+
+---
+
+# Source of Truth Hierarchy
+
+The Framework follows this hierarchy:
+
+1. Evidence
+2. Events
+3. Metrics Observations
+4. Metrics
+5. Reports
+
+Higher levels are always derived from lower levels.
+
+The hierarchy must never be inverted.
+
+---
+
+# Golden Rule
+
+Everything generated by the AI Engineering Auditor must ultimately be traceable back to observable evidence.

@@ -1,11 +1,16 @@
 {
   "schemaVersion": "1.0.0",
-  "projectId": "",
-  "name": "",
-  "repository": "",
+  "projectId": "__PROJECT_ID__",
+  "name": "__PROJECT_NAME__",
+  "repository": "__REPOSITORY__",
   "description": "",
   "status": "Initialized",
-  "createdAt": "",
-  "aiTools": ["ChatGPT", "GitHub Copilot", "Codex"],
-  "metrics": ["Productivity", "Quality", "Confidence", "Learning", "Risk"]
+  "createdAt": "__CREATED_AT__",
+  "lastUpdated": "__UPDATED_AT__",
+  "evaluationProfile": {
+    "objective": "",
+    "baseline": "",
+    "successCriteria": [],
+    "aiTools": ["ChatGPT", "GitHub Copilot", "Codex"]
+  }
 }
