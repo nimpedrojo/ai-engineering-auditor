@@ -269,11 +269,11 @@ print_summary() {
     printf "%-20s %s\n" "Status"       "Initialized"
     printf "%-20s %s\n" "Events"       "1"
     echo
-    echo "Next steps"
-    echo "----------"
-    echo "1. Open ChatGPT."
-    echo "2. Select the AI Engineering Auditor Agent."
-    echo "3. Start your first engineering task."
+    echo "Next step"
+    echo "---------"
+    echo "Run:"
+    echo
+    echo "  aiea-status"
     echo
     echo "============================================================"
     echo
