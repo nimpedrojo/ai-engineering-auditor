@@ -1,138 +1,50 @@
 {
   "schemaVersion": "1.0.0",
-  "lastUpdated": "2026-06-25",
-  "description": "Official taxonomy for AI Engineering Auditor.",
-  "intents": [
-    "Understand",
-    "Research",
-    "Compare",
-    "Design",
-    "Generate",
-    "Review",
-    "Debug",
-    "Document",
-    "Test",
-    "Validate",
-    "Refactor",
-    "Optimize",
-    "Plan"
-  ],
-  "taskTypes": [
-    "Architecture",
-    "Backend",
-    "Frontend",
-    "Database",
-    "Infrastructure",
-    "DevOps",
-    "Testing",
-    "Documentation",
-    "Migration",
-    "Security",
-    "Performance",
-    "BusinessLogic",
-    "API",
-    "UI",
-    "Data",
-    "CI/CD"
-  ],
+
   "phases": [
     "Discovery",
-    "Architecture",
+    "Analysis",
+    "Design",
     "Implementation",
-    "Migration",
     "Testing",
     "Validation",
     "Deployment",
-    "Maintenance"
+    "Completed"
   ],
-  "tools": {
-    "ConversationalAI": ["ChatGPT", "Claude", "Gemini"],
-    "IDEAssistant": ["GitHub Copilot", "Cursor", "JetBrains AI"],
-    "CodingAgent": ["Codex", "Claude Code", "OpenHands", "Devin"],
-    "Manual": ["Manual"]
-  },
-  "outputStatus": [
-    "Accepted",
-    "PartiallyAccepted",
-    "Rejected",
-    "Rewritten",
-    "NotUsed"
-  ],
-  "humanIntervention": [
-    "None",
-    "Minor",
-    "Moderate",
-    "Major",
-    "CompleteRewrite"
-  ],
-  "riskLevels": ["None", "Low", "Medium", "High", "Critical"],
-  "evidenceTypes": [
-    "Commit",
-    "PullRequest",
+
+  "eventTypes": [
+    "ProjectInitialized",
+
+    "TaskStarted",
+    "TaskCompleted",
+
+    "Finding",
+    "Decision",
     "Issue",
-    "File",
-    "Document",
-    "Test",
-    "Coverage",
-    "Benchmark",
-    "Screenshot",
-    "ReviewNote",
-    "Meeting"
+    "Risk",
+    "Milestone",
+
+    "AIInteraction"
   ],
-  "qualityDimensions": [
-    "Correctness",
-    "Maintainability",
+
+  "aiTools": ["ChatGPT", "GitHub Copilot", "Codex", "Manual"],
+
+  "interactionPurposes": [
     "Architecture",
-    "Performance",
-    "Security",
-    "Readability",
+    "Analysis",
+    "Learning",
+    "CodeGeneration",
+    "Refactoring",
+    "Debugging",
     "Testing",
     "Documentation",
-    "DeveloperExperience"
+    "Review",
+    "DecisionSupport"
   ],
-  "scoreDimensions": ["Productivity", "Quality", "Confidence", "Learning"],
-  "scoreScale": {
-    "0": "No useful contribution",
-    "1": "Minor support",
-    "2": "Useful with heavy correction",
-    "3": "Useful with moderate correction",
-    "4": "Strong contribution with minor correction",
-    "5": "Directly reusable"
-  },
-  "outcomes": [
-    "TaskCompleted",
-    "TaskAccelerated",
-    "KnowledgeImproved",
-    "DocumentationImproved",
-    "BugPrevented",
-    "BugIntroduced",
-    "ArchitectureImproved",
-    "ArchitectureDegraded",
-    "NoImpact"
-  ],
-  "contextSource": [
-    "Repository",
-    "Issue",
-    "Specification",
-    "Documentation",
-    "Conversation",
-    "HumanExplanation",
-    "Unknown"
-  ],
-  "validationType": [
-    "ManualReview",
-    "UnitTests",
-    "IntegrationTests",
-    "FunctionalTests",
-    "Benchmark",
-    "ProductionValidation",
-    "None"
-  ],
-  "aiUsageMaturity": [
-    "AdHoc",
-    "Assisted",
-    "Integrated",
-    "Systematic",
-    "Optimized"
-  ]
+
+  "interactionResults": ["Accepted", "Modified", "Rejected", "Informational"],
+
+  "taskStatus": ["Ready", "TaskActive", "Completed"],
+
+  "severity": ["Low", "Medium", "High", "Critical"]
 }
