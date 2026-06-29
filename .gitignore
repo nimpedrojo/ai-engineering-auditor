@@ -9,3 +9,8 @@ docs/ai-auditor/.workspace.json
 
 # Logs
 *.log
+
+observer/vscode-extension/aiea-vscode-observer/node_modules/
+observer/vscode-extension/aiea-vscode-observer/out/
+observer/vscode-extension/node_modules/
+observer/vscode-extension/out/
